@@ -1,0 +1,63 @@
+<diagram program="umletino" version="15.1"><zoom_level>13</zoom_level><element><id>UMLClass</id><coordinates><x>260</x><y>130</y><w>299</w><h>195</h></coordinates><panel_attributes>_object: Usuario_
+--
+nombre: String
+dni: String
+direccion: Direccion()
+--
+Getters/Setters
+AltaUsuario(): Void
+BajaUsuario(): Void
+ModificarUsuario(): Void
+BuscarUsuario(): Usuario
+ValidarUsuario(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>507</y><w>299</w><h>299</h></coordinates><panel_attributes>_object: Direccion_
+--
+pais: Pais()
+provincia: Provincia()
+localidad: Localidad()
+calle: String
+barrio: String 
+numero: String
+piso: String
+--
+Getters/Setters
+AltaDireccion(): Void
+BajaDireccion(): Void
+ModificarDireccion(): Void
+BuscarDireccion(): Direccion
+ValidarDireccion(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>806</x><y>78</y><w>299</w><h>195</h></coordinates><panel_attributes>_object: Pais_
+--
+nombre: String
+--
+Getters/Setters
+AltaPais(): Void
+BajaPais(): Void
+ModificarPais(): Void
+BuscarPais(): Pais
+ValidarPais(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>806</x><y>364</y><w>299</w><h>195</h></coordinates><panel_attributes>_object: Provincia_
+--
+nombre: String
+pais: Pais()
+--
+Getters/Setters
+AltaProvincia(): Void
+BajaProvincia(): Void
+ModificarProvincia(): Void
+BuscarProvincia(): Provincia
+ValidarProvincia(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>806</x><y>650</y><w>299</w><h>195</h></coordinates><panel_attributes>_object: Localidad_
+--
+nombre: String
+provincia: Provincia()
+codigoPostal: Int
+--
+Getters/Setters
+AltaLocalidad(): Void
+BajaLocalidad(): Void
+ModificarLocalidad(): Void
+BuscarLocalidad(): Localidad
+ValidarLocalidad(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>312</y><w>65</w><h>221</h></coordinates><panel_attributes>lt=&lt;-
+1..*</panel_attributes><additional_attributes>10;150;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>169</y><w>286</w><h>403</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+1</panel_attributes><additional_attributes>200;10;100;10;100;290;10;290</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>442</y><w>286</w><h>169</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+1</panel_attributes><additional_attributes>200;10;120;10;120;110;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>611</y><w>286</w><h>117</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+1</panel_attributes><additional_attributes>200;70;100;70;100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>936</x><y>260</y><w>52</w><h>130</h></coordinates><panel_attributes>lt=&lt;-
+1</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>936</x><y>546</y><w>52</w><h>130</h></coordinates><panel_attributes>lt=&lt;-
+1</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element></diagram>
