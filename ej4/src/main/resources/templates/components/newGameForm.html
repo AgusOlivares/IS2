@@ -1,0 +1,87 @@
+<!-- Modal para Agregar/Editar Videojuego -->
+<div th:fragment="new-form" class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="gameModalLabel">Agregar Nuevo Videojuego</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/videojuegos}" th:object="${videojuego}" method="post">
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" th:field="*{nombre}" class="form-control" required>
+                    </div>
+
+                    <!-- URL Imagen -->
+                    <div class="mb-3">
+                        <label for="rutaimg" class="form-label">URL Imagen</label>
+                        <input type="text" th:field="*{rutaimg}" class="form-control" required>
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" step="0.01" th:field="*{precio}" class="form-control" required>
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Stock</label>
+                        <input type="number" th:field="*{cantidad}" class="form-control" required>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea th:field="*{descripcion}" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <!-- En oferta -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" th:field="*{oferta}" class="form-check-input">
+                        <label class="form-check-label" for="o`ferta">En Oferta</label>
+                    </div>
+
+                    <!-- Fecha de lanzamiento -->
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha de Lanzamiento</label>
+                        <input type="date" th:field="*{fecha}" class="form-control">
+                    </div>
+
+                    <!-- Estudio (select con lista de estudios) -->
+                    <div class="mb-3">
+                        <label for="estudio" class="form-label">Estudio</label>
+                        <select th:field="*{estudio}" class="form-select">
+                            <option th:each="estudio : ${estudios}"
+                                    th:value="${estudio}"
+                                    th:text="${estudio.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Categoría (select con lista de categorías) -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select th:field="*{categoria}" class="form-select">
+                            <option th:each="categoria : ${categorias}"
+                                    th:value="${categoria}"
+                                    th:text="${categoria.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Activo -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" th:field="*{activo}" class="form-check-input">
+                        <label class="form-check-label" for="activo">Activo</label>
+                    </div>
+
+                    <!-- Botón submit -->
+                    <button type="submit" class="btn btn-primary w-100">Guardar Videojuego</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
