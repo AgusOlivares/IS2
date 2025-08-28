@@ -1,4 +1,4 @@
-package ar.edu.uncuyo.videojuegos.controllers;
+package ar.edu.uncuyo.videojuegos.controller;
 
 import ar.edu.uncuyo.videojuegos.entity.EstudioEntity;
 import ar.edu.uncuyo.videojuegos.service.EstudioService;
