@@ -29,4 +29,8 @@ public class EstudioEntity implements Serializable {
     @OneToMany(mappedBy = "estudio", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<VideojuegoEntity> videojuegos = new ArrayList<>();
 
+
+    //Borrar
+    public EstudioEntity(int i, String s) {
+    }
 }

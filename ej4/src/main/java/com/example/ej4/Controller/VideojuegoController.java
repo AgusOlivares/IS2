@@ -1,47 +1,42 @@
 package com.example.ej4.Controller;
 
+
 import com.example.ej4.entity.VideojuegoEntity;
 import com.example.ej4.service.VideojuegoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
+import java.util.Collection;
 
 @Controller
-@RequestMapping("/videojuegos")
 public class VideojuegoController {
 
     @Autowired
-    private VideojuegoService service;
+    private VideojuegoService videojuegoService;
 
-    // --- Métodos MVC ---
-    @PostMapping
-    public String crear(@ModelAttribute("videojuego") VideojuegoEntity videojuego) {
-        service.guardar(videojuego);
-        return "redirect:/inicio";
+    private String viewList= "view/videojuego/lVideojuego.html";
+    private String redirectList= "redirect:view/videojuego/listVideojuego";
+    private String viewEdit= "view/videojuego/eVideojuego.html";
+
+    ///////////////// VIEW: lVideojuego ///////////////
+
+    @GetMapping("/videojuego/listVideojuego")
+    public String listVideojuego(Model model) {
+
+        try {
+            Collection<VideojuegoEntity> videojuegos = videojuegoService.obtenerTodos();
+
+            model.addAttribute("videojuegos", videojuegos);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return viewList;
     }
 
-    @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-        return "redirect:/inicio";
-    }
 
-    // --- Métodos REST ---
-    @GetMapping("/api")
-    @ResponseBody
-    public List<VideojuegoEntity> obtenerTodos() {
-        return service.obtenerTodos();
-    }
 
-    @GetMapping("/api/{id}")
-    @ResponseBody
-    public ResponseEntity<VideojuegoEntity> obtenerPorId(@PathVariable Long id) {
-        return service.obtenerPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 }

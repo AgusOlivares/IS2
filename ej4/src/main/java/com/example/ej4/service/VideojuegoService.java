@@ -4,6 +4,8 @@ import com.example.ej4.entity.VideojuegoEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 import java.util.List;
 import com.example.ej4.DAO.VideojuegoDAO;
 
@@ -17,7 +19,7 @@ public class VideojuegoService {
     private VideojuegoDAO DAO;
 
     //Obtiene todos los juegos activos
-    public List<VideojuegoEntity> obtenerTodos() {
+    public Collection<VideojuegoEntity> obtenerTodos() {
         return DAO.findAll().stream().filter(VideojuegoEntity::isActivo).collect(Collectors.toList());
     }
 

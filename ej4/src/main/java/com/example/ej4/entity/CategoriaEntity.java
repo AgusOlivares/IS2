@@ -26,4 +26,8 @@ public class CategoriaEntity implements Serializable {
 
     @Column(name = "activo")
     private boolean activo;
+
+    //Borrar
+    public CategoriaEntity(int i, String indie) {
+    }
 }

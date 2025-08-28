@@ -1,14 +1,20 @@
 package com.example.ej4.entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
+
+@Transactional
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -52,4 +58,6 @@ public class VideojuegoEntity implements Serializable {
 
     @Column(name = "activo")
     private boolean activo = true;
+
+
 }
