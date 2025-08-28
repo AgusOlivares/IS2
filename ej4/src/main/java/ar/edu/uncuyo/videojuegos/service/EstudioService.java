@@ -1,8 +1,8 @@
-package com.example.ej4.service;
+package ar.edu.uncuyo.videojuegos.service;
 
 
-import com.example.ej4.DAO.EstudioDAO;
-import com.example.ej4.entity.EstudioEntity;
+import ar.edu.uncuyo.videojuegos.DAO.EstudioDAO;
+import ar.edu.uncuyo.videojuegos.entity.EstudioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

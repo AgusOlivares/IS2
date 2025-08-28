@@ -1,6 +1,6 @@
-package com.example.ej4.DAO;
+package ar.edu.uncuyo.videojuegos.DAO;
 
-import com.example.ej4.entity.VideojuegoEntity;
+import ar.edu.uncuyo.videojuegos.entity.VideojuegoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
