@@ -1,10 +1,10 @@
-package com.example.ej4;
+package ar.edu.uncuyo.videojuegos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Ej4ApplicationTests {
+class VideojuegosApplicationTests {
 
 	@Test
 	void contextLoads() {
