@@ -1,4 +1,4 @@
-package com.example.ej4.entity;
+package ar.edu.uncuyo.videojuegos.entity;
 
 
 import jakarta.persistence.*;
