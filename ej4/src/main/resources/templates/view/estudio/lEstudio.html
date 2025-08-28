@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Lista Nacionalidad</title>
+    <title>Lista Estudios</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
@@ -24,10 +24,10 @@
       <div class="container"> 
 
         <div class="card">
-          <h4 class="card-header"><strong>Lista Nacionalidad</strong></h4>              
+          <h4 class="card-header"><strong>Lista Estudios</strong></h4>
           <div class="card-body">
 			
-            <a class="btn btn-primary" th:href="@{/nacionalidad/altaNacionalidad}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> </a>            
+            <a class="btn btn-primary" th:href="@{/estudio/alta}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> </a>
             
 			<hr>
 			<div th:if="${msgExito != null}" class='alert alert-success' th:text="${msgExito}" role='alert'></div>   
@@ -41,13 +41,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="nacionalidad : ${listaNacionalidad}">
+                <tr th:each="estudio : ${listaEstudio}">
                   <td>
-					<a th:href="@{/nacionalidad/consultar?id=} + ${nacionalidad.id}" class="btn btn-success btn-sm" role="button" title="Consultar"><i class="fas fa-eye" aria-hidden="true"></i></a>
-                    <a th:href="@{/nacionalidad/modificar?id=} + ${nacionalidad.id}" class="btn btn-success btn-sm" role="button" title="Modificar"><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                    <a th:href="@{/nacionalidad/baja?id=} + ${nacionalidad.id}" class="btn btn-success btn-sm" role="button" title="Baja"><i class="fas fa-trash" aria-hidden="true"></i></a>
+                    <a th:href="@{/estudio/consultar/{id} (id=${estudio.id}) }" class="btn btn-success btn-sm" role="button" title="Consultar"><i class="fas fa-eye" aria-hidden="true"></i></a>
+                    <a th:href="@{/estudio/modificar/{id} (id=${estudio.id}) }" class="btn btn-success btn-sm" role="button" title="Modificar"><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                    <a th:href="@{/estudio/baja/{id} (id=${estudio.id}) }" class="btn btn-success btn-sm confirmar" role="button" title="Baja"><i class="fas fa-trash" aria-hidden="true"></i></a>
                   </td>
-				  <td th:text="${nacionalidad.nombre}"></td>
+				  <td th:text="${estudio.nombre}"></td>
                 </tr>                              
               </tbody>
             </table>

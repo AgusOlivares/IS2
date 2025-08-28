@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -26,6 +27,5 @@ public class EstudioEntity implements Serializable {
     private boolean activo;
 
     @OneToMany(mappedBy = "estudio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<VideojuegoEntity> videojuegos = new ArrayList<>();
-
+    private List<VideojuegoEntity> videojuegos = new ArrayList<>();
 }
