@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface VotesRepository extends JpaRepository<Votes,Integer> {
+public interface VotesRepository extends JpaRepository<Votes,String> {
     @Query("SELECT c FROM Votes c WHERE c.pet1.id = :id ORDER BY c.fecha DESC")
     public List<Votes> searchMyVotes(@Param("id") String id);
 

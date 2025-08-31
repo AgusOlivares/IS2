@@ -45,4 +45,20 @@ public class Votes {
     public void setRespuesta(Date respuesta) {
         this.respuesta = respuesta;
     }
+
+    public Pet getPet1() {
+        return pet1;
+    }
+
+    public void setPet1(Pet pet1) {
+        this.pet1 = pet1;
+    }
+
+    public Pet getPet2() {
+        return pet2;
+    }
+
+    public void setPet2(Pet pet2) {
+        this.pet2 = pet2;
+    }
 }
