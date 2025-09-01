@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Edit Estudio</title>
+    <title>Edit Category</title>
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
@@ -15,17 +15,17 @@
 
 <body>
 
-<header th:insert="~{fragments/menubody :: menu-principal}"></header>
+<header th:insert="~{fragments/header :: header}"></header>
 
 <main role="main">
     <hr>
     <div class="container">
 
         <div class="card">
-            <h4 class="card-header"><strong>EDIT ESTUDIO</strong></h4>
+            <h4 class="card-header"><strong>EDIT CATEGORÍA</strong></h4>
             <div class="card-body">
 
-                <form th:action="@{/estudio/aceptarEdit}" method="post" th:object="${estudioEntity}">
+                <form th:action="@{/categories/aceptarEdit}" method="post" th:object="${category}">
 
                     <div th:if="${msgExito != null}" class='alert alert-success' th:text="${msgExito}" role='alert'></div>
                     <div th:if="${msgError != null}" class='alert alert-danger' th:text="${msgError}" role='alert'></div>
@@ -36,8 +36,8 @@
 
                                 <input type="hidden" name="id" th:field="*{id}" >
 
-                                <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" th:field="*{nombre}" placeholder="Escriba el nombre de país" required="required" th:disabled="${isDisabled}">
+                                <label for="name">Nombre</label>
+                                <input type="text" class="form-control" th:field="*{name}" placeholder="Escriba el nombre de la categoría" required="required" th:disabled="${isDisabled}">
 
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                     <hr>
                     <div class="d-grid gap-2 float-right justify-content-md-end">
                         <button type="submit" title="Guardar el registro." class="btn btn-primary" th:disabled="${isDisabled}">ACEPTAR</button>
-                        <a class="btn btn-primary" th:href="@{/estudio/cancelarEdit}" role="button">CANCELAR</a>
+                        <a class="btn btn-primary" th:href="@{/categories}" role="button">CANCELAR</a>
                     </div>
 
                 </form>
@@ -57,7 +57,7 @@
 
 </main>
 
-<footer th:insert="~{fragments/footer :: pie-pagina}" class="footer"></footer>
+<footer th:insert="~{fragments/footer :: footer}" class="footer"></footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

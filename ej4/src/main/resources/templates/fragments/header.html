@@ -1,4 +1,4 @@
-<nav th:fragment="menu-principal" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav th:fragment="header" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   
   <a class="navbar-brand" th:href="@{/}">DEMO</a>
   
@@ -9,11 +9,14 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/videojuegos/listarVideojuegos}">AMB Juegos</a>
+        <a class="nav-link" th:href="@{/videogames}">AMB Juegos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/estudio/lista}">ABM Estudio</a>
+        <a class="nav-link" th:href="@{/studios}">ABM Estudios</a>
       </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/categories}">ABM Categorías</a>
+        </li>
     </ul>  
   </div>
   
