@@ -20,11 +20,21 @@ public class Usser {
     @ManyToOne
     private Zone zone;
 
+    @OneToOne
+    private Photo photo;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date alta;
     @Temporal(TemporalType.TIMESTAMP)
     private Date baja;
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
 
     public Zone getZone() {
         return zone;

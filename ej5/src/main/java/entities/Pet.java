@@ -23,7 +23,16 @@ public class Pet {
 
     @ManyToOne
     private Usser usser;
+    @OneToOne
+    private Photo photo;
 
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
 
     public Sexo getSexo() {
         return sexo;
