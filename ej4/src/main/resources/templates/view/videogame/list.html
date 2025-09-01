@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Lista País</title>
+    <title>Lista Videojuegos</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
@@ -16,7 +16,7 @@
   </head>
 
   <body>
-  <header th:insert="~{fragments/menubody :: menu-principal}"></header>
+  <header th:insert="~{fragments/header :: header}"></header>
 
   <main role="main">
       <hr>
@@ -26,7 +26,7 @@
               <h4 class="card-header"><strong>Lista Juegos</strong></h4>
               <div class="card-body">
 
-                  <a class="btn btn-primary mb-3" th:href="@{/videojuegos/altaVideojuegos}" role="button">
+                  <a class="btn btn-primary mb-3" th:href="@{/videogames/add}" role="button">
                       <i class="btn-block" aria-hidden="true">Agregar Videojuego</i>
                   </a>
 
@@ -38,7 +38,6 @@
                       <table class="table table-hover table-bordered table-sm">
                           <thead class="thead-light">
                           <tr>
-                              <th scope="col">#ID</th>
                               <th scope="col">Nombre</th>
                               <th scope="col">Imagen</th>
                               <th scope="col">Precio</th>
@@ -52,23 +51,23 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr th:each="videojuego : ${listaVideojuegos}">
+                          <tr th:each="videogame : ${videogameList}">
 
-                              <td th:text="${videojuego.nombre}"></td>
-                              <td><img th:src="${videojuego.ruta_img}" alt="imagen" style="width:80px; height:auto;"></td>
-                              <td th:text="${videojuego.precio}"></td>
-                              <td th:text="${videojuego.cantidad}"></td>
-                              <td th:text="${videojuego.descripcion}"></td>
-                              <td th:text="${videojuego.oferta}"></td>
-                              <td th:text="${videojuego.fechaLanzamiento}"></td>
-                              <td th:text="${videojuego.estudio.nombre}"></td>
-                              <td th:text="${videojuego.categorias.nombre}"></td>
+                              <td th:text="${videogame.title}"></td>
+                              <td><img th:src="${videogame.imageUrl}" alt="imagen" style="width:80px; height:auto;"></td>
+                              <td th:text="${videogame.price}"></td>
+                              <td th:text="${videogame.amount}"></td>
+                              <td th:text="${videogame.description}"></td>
+                              <td th:text="${videogame.onSale}"></td>
+                              <td th:text="${videogame.releaseDate}"></td>
+                              <td th:text="${videogame.studio.name}"></td>
+                              <td th:text="${videogame.category.name}"></td>
                               <td>
-                                  <a th:href="@{/videojuegos/consultar/{id}(id=${videojuego.id})}"
+                                  <a th:href="@{/videogames/{id}(id=${videogame.id})}"
                                      class="btn btn-success btn-sm" title="Consultar"><i class="fas fa-eye"></i></a>
-                                  <a th:href="@{/videojuegos/modificar/{id}(id=${videojuego.id})}"
+                                  <a th:href="@{/videogames/{id}/edit(id=${videogame.id})}"
                                      class="btn btn-warning btn-sm" title="Modificar"><i class="fas fa-pencil-alt"></i></a>
-                                  <a th:href="@{/videojuegos/baja/{id}(id=${videojuego.id})}"
+                                  <a th:href="@{/videogames/{id}/delete(id=${videogame.id})}"
                                      class="btn btn-danger btn-sm confirmar" title="Borrar"><i class="fas fa-trash"></i></a>
                               </td>
                           </tr>
@@ -81,7 +80,7 @@
       </div>
   </main>
 
-    <footer th:insert="~{fragments/footer :: pie-pagina}" class="footer"></footer>
+    <footer th:insert="~{fragments/footer :: footer}" class="footer"></footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
