@@ -12,9 +12,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // todas las rutas públicas
+                        // Permit access to the login page and static resources
+                        .requestMatchers("/login","/registro", "/css/**", "/js/**", "/img/**").permitAll()
+                        // All other requests require authentication
+                        .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()); // desactiva CSRF (solo recomendable en desarrollo)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login") // This should match your form's action
+                        .defaultSuccessUrl("/inicio", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                )
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 }

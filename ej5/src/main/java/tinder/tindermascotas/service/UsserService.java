@@ -1,5 +1,8 @@
 package tinder.tindermascotas.service;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.Usser;
 import tinder.tindermascotas.entities.Zone;
@@ -133,12 +136,12 @@ public class UsserService implements UserDetailsService {
         Usser usser = usserRepository.searchByMail(mail);
         if (usser != null) {
             List<GrantedAuthority> permits = new ArrayList<>();
-            GrantedAuthority p1 = new SimpleGrantedAuthority("MODULO_PHOTOS");
+            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO");
             permits.add(p1);
-            GrantedAuthority p2 = new SimpleGrantedAuthority("MODULO_PETS");
-            permits.add(p1);
-            GrantedAuthority p3 = new SimpleGrantedAuthority("MODULO_VOTES");
-            permits.add(p1);
+
+            ServletRequestAttributes att = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpSession session = att.getRequest().getSession(true);
+            session.setAttribute("ussersession", usser);
 
             User user = new User(usser.getMail(), usser.getClave(), permits);
             return user;

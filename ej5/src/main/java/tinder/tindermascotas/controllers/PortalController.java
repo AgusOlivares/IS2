@@ -1,6 +1,7 @@
 package tinder.tindermascotas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -30,8 +31,20 @@ public class PortalController {
         return "index";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/inicio")
+    public String inicio() {
+        return "inicio";
+    }
+
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout,  ModelMap model) {
+        if (error != null) {
+            model.put("error", "Usuario o clave incorrectos");
+        }
+        if (logout != null) {
+            model.put("logout", "Se ha deslogueado correctamente");
+        }
         return "login";
     }
 
