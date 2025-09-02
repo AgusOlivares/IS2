@@ -70,20 +70,20 @@
                <input type="hidden" name="id" th:value="${perfil.id}"/>
                 
               <label>Nombre de la mascota</label>
-              <input type="text" class="form-control" name="nombre" th:value="${perfil.nombre}" th:disabled="${accion == 'Eliminar' OR accion == 'Alta'}"/>
+              <input type="text" class="form-control" name="nombre" th:value="${perfil.nombre}" th:disabled="${accion == 'Eliminar' or accion == 'Alta'}"/>
               
               <label>Tipo</label>
-              <select class="form-control" name="tipo" th:disabled="${accion == 'Eliminar' OR accion == 'Alta'}"> 
+              <select class="form-control" name="tipo" th:disabled="${accion == 'Eliminar' or accion == 'Alta'}">
                  <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}" th:selected="${perfil.tipo != null && tipo == perfil.tipo}"></option>
               </select>
               
               <label>Sexo</label>
-              <select class="form-control" name="sexo" th:disabled="${accion == 'Eliminar' OR accion == 'Alta'}"> 
+              <select class="form-control" name="sexo" th:disabled="${accion == 'Eliminar' or accion == 'Alta'}">
                  <option th:each="sexo : ${sexos}" th:value="${sexo}" th:text="${sexo}" th:selected="${perfil.sexo != null && sexo == perfil.sexo}"></option>
               </select>
 
               <label th:if="${accion != 'Eliminar'}">Foto</label>
-              <input type="file" class="form-control" name="archivo" th:if="${accion != 'Eliminar' OR accion == 'Alta'}"/>
+              <input type="file" class="form-control" name="archivo" th:if="${accion != 'Eliminar' or accion == 'Alta'}"/>
               
               <br/>
               

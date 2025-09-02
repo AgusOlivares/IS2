@@ -3,24 +3,34 @@ package tinder.tindermascotas;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import tinder.tindermascotas.service.UsserLoginService;
 
 @Configuration
 public class SecurityConfig {
+
+    private  UsserLoginService usserLoginService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         // Permit access to the login page and static resources
-                        .requestMatchers("/login","/registro", "/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/login","/registro", "/registrar","/exito", "/css/**", "/js/**", "/img/**", "/webjars/**", "/vendor/**").permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login") // This should match your form's action
+                        .usernameParameter("mail")      // 👈 nombre del input en el form
+                        .passwordParameter("clave")     // 👈 nombre del input en el form
                         .defaultSuccessUrl("/inicio", true)
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -31,4 +41,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return usserLoginService; // 👈 tu servicio que implementa UserDetailsService
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance(); // sin encriptar (solo pruebas)
+    }
+
+
+
 }
