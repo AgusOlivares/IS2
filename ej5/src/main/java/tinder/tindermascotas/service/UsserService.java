@@ -2,6 +2,7 @@ package tinder.tindermascotas.service;
 
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.Usser;
+import tinder.tindermascotas.entities.Zone;
 import tinder.tindermascotas.exceptions.ErrorService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.repositories.UsserRepository;
+import tinder.tindermascotas.repositories.ZoneRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,15 +31,20 @@ public class UsserService implements UserDetailsService {
     private NotificationService notificationService;
     @Autowired
     private PhotoService photoService;
+    @Autowired
+    private ZoneRepository zoneRepository;
 
     @Transactional
-    public void register(MultipartFile file, String nombre, String apellido, String mail, String clave) throws ErrorService {
-        validate(nombre, apellido, mail, clave);
+    public void register(MultipartFile file, String nombre, String apellido, String mail, String clave1, String clave2, String idZona) throws ErrorService {
+        Zone zone = zoneRepository.getZoneById(idZona);
+        validate(nombre, apellido, mail, clave1, clave2, zone);
+
         Usser usser = new Usser();
+        usser.setZone(zone);
         usser.setNombre(nombre);
         usser.setApellido(apellido);
         usser.setMail(mail);
-        usser.setClave(clave);
+        usser.setClave(clave1);
         usser.setAlta(new Date());
 
         Photo photo = photoService.save(file);
@@ -45,19 +52,21 @@ public class UsserService implements UserDetailsService {
 
         usserRepository.save(usser);
 
-        notificationService.send("Bienvenido al Tinder de Mascotas!", "Tinder de Mascotas", usser.getMail());
+        ///notificationService.send("Bienvenido al Tinder de Mascotas!", "Tinder de Mascotas", usser.getMail());
     }
 
     @Transactional
-    public void modify(MultipartFile file, String id, String nombre, String apellido, String mail, String clave) throws ErrorService {
-        validate(nombre, apellido, mail, clave);
+    public void modify(MultipartFile file, String id, String nombre, String apellido, String mail, String clave1, String clave2, String idZona) throws ErrorService {
+        Zone zone = zoneRepository.getZoneById(idZona);
+        validate(nombre, apellido, mail, clave1, clave2,zone);
         Optional<Usser> response = usserRepository.findById(id);
         if (response.isPresent()) {
             Usser usser = response.get();
             usser.setNombre(nombre);
             usser.setApellido(apellido);
             usser.setMail(mail);
-            usser.setClave(clave);
+            usser.setClave(clave1);
+            usser.setZone(zone);
 
             String idPhoto = null;
             if (usser.getPhoto() != null) {
@@ -98,7 +107,7 @@ public class UsserService implements UserDetailsService {
     }
 
 
-    private void validate(String nombre, String apellido, String mail, String clave)  throws ErrorService{
+    private void validate(String nombre, String apellido, String mail, String clave1, String clave2, Zone zone)  throws ErrorService{
         if (nombre ==null || nombre.isEmpty()){
             throw new ErrorService("El nombre del usuario no puede ser nulo");
         }
@@ -108,8 +117,14 @@ public class UsserService implements UserDetailsService {
         if (mail ==null || mail.isEmpty()){
             throw new ErrorService("El mail del usuario no puede ser nulo");
         }
-        if (clave == null || clave.isEmpty() || clave.length()<=6){
+        if (clave1 == null || clave1.isEmpty() || clave1.length()<=6){
             throw new ErrorService("La clave del usuario no puede ser nula y tiene que ser de mas de 6 digitos");
+        }
+        if (!clave1.equals(clave2)){
+            throw new ErrorService("Las claves del usuario no coinciden");
+        }
+        if (zone == null){
+            throw new ErrorService("Zona no encontrada");
         }
     }
 
