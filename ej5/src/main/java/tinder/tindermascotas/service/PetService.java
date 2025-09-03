@@ -2,14 +2,14 @@ package tinder.tindermascotas.service;
 
 import tinder.tindermascotas.entities.Pet;
 import tinder.tindermascotas.entities.Photo;
-import tinder.tindermascotas.entities.Usser;
+import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.enums.Sexo;
 import tinder.tindermascotas.exceptions.ErrorService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tinder.tindermascotas.repositories.UsserRepository;
+import tinder.tindermascotas.repositories.UserRepository;
 import tinder.tindermascotas.repositories.PetRepository;
 
 import java.util.Date;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PetService {
 
     @Autowired
-    private UsserRepository usserRepository;
+    private UserRepository userRepository;
     @Autowired
     private PetRepository petRepository;
     @Autowired
@@ -27,7 +27,7 @@ public class PetService {
 
     @Transactional
     public void addPet(MultipartFile file, String idUsser, String name, Sexo sexo) throws ErrorService {
-        Usser usser = usserRepository.findById(idUsser).get();
+        User user = userRepository.findById(idUsser).get();
         validate(name, sexo);
         Pet pet = new Pet();
         pet.setNombre(name);

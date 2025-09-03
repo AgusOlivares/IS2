@@ -3,17 +3,16 @@ package tinder.tindermascotas;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import tinder.tindermascotas.service.UsserLoginService;
+import tinder.tindermascotas.service.UserLoginService;
 
 @Configuration
 public class SecurityConfig {
 
-    private  UsserLoginService usserLoginService;
+    private UserLoginService userLoginService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,7 +43,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return usserLoginService; // 👈 tu servicio que implementa UserDetailsService
+        return userLoginService; // 👈 tu servicio que implementa UserDetailsService
     }
 
     @Bean

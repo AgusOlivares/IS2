@@ -7,7 +7,8 @@ import java.util.Date;
 
 
 @Entity
-public class Usser {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue
     @UuidGenerator

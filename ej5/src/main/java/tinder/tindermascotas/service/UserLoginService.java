@@ -1,32 +1,31 @@
 package tinder.tindermascotas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import tinder.tindermascotas.entities.Usser;
-import tinder.tindermascotas.repositories.UsserRepository;
+import tinder.tindermascotas.entities.User;
+import tinder.tindermascotas.repositories.UserRepository;
 
 
 @Service
-public class UsserLoginService implements UserDetailsService {
+public class UserLoginService implements UserDetailsService {
 
         @Autowired
-        private UsserRepository usserRepository;
+        private UserRepository userRepository;
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            Usser usser = usserRepository.searchByMail(username);
-            if (usser == null) {
+            User user = userRepository.searchByMail(username);
+            if (user == null) {
                 throw new UsernameNotFoundException("Invalid username or password");
             }
-            System.out.println("Autenticando: " + usser.getMail());
+            System.out.println("Autenticando: " + user.getMail());
 
-            return User.builder()
-                    .username(usser.getMail())
-                    .password(usser.getClave()) // ya encriptada
+            return org.springframework.security.core.userdetails.User.builder()
+                    .username(user.getMail())
+                    .password(user.getClave()) // ya encriptada
                     .roles("USER")
                     .build();
 

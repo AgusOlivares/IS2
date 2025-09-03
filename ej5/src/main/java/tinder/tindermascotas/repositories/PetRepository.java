@@ -1,16 +1,17 @@
 package tinder.tindermascotas.repositories;
 
-import tinder.tindermascotas.entities.Pet;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import tinder.tindermascotas.entities.Pet;
+
+import java.util.List;
 
 @Repository
 public interface PetRepository extends JpaRepository<Pet, String> {
 
-    @Query("SELECT c FROM Pet c WHERE c.usser.id = :id")
+    @Query("SELECT c FROM Pet c WHERE c.user.id = :id")
     public List<Pet> buscarMascotasPorUsuario(@Param("id") String id);
 
 }

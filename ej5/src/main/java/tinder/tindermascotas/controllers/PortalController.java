@@ -3,7 +3,6 @@ package tinder.tindermascotas.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,17 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.entities.Zone;
 import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.ZoneRepository;
-import tinder.tindermascotas.service.UsserService;
+import tinder.tindermascotas.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Controller
 public class PortalController {
     @Autowired
-    private UsserService usserService;
+    private UserService userService;
     @Autowired
     private ZoneRepository zoneRepository;
 
@@ -64,7 +60,7 @@ public class PortalController {
     @PostMapping("/registrar")
     public String registrar(ModelMap model , MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2, @RequestParam String idZona) {
         try {
-            usserService.register(archivo, nombre, apellido, mail, clave1, clave2, idZona);
+            userService.register(archivo, nombre, apellido, mail, clave1, clave2, idZona);
         } catch (ErrorService ex){
             List<Zone> zonas = (List<Zone>) zoneRepository.findAll();
             model.put("zonas", zonas);

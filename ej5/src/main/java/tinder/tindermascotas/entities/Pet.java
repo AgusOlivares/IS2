@@ -22,7 +22,7 @@ public class Pet {
     private Date baja;
 
     @ManyToOne
-    private Usser usser;
+    private User user;
     @OneToOne
     private Photo photo;
 
@@ -42,12 +42,12 @@ public class Pet {
         this.sexo = sexo;
     }
 
-    public Usser getUsser() {
-        return usser;
+    public User getUsser() {
+        return user;
     }
 
-    public void setUsser(Usser usser) {
-        this.usser = usser;
+    public void setUsser(User user) {
+        this.user = user;
     }
 
     public String getId() {
