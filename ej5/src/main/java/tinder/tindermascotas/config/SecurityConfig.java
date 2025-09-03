@@ -1,4 +1,4 @@
-package tinder.tindermascotas;
+package tinder.tindermascotas.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +50,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance(); // sin encriptar (solo pruebas)
     }
-
-
-
 }
