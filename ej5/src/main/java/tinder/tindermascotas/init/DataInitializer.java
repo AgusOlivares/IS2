@@ -13,6 +13,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Zonas
         Zone zone1 = Zone.builder().nombre("Capital").build();
         Zone zone2 = Zone.builder().nombre("Godoy Cruz").build();
         Zone zone3 = Zone.builder().nombre("Guaymallén").build();

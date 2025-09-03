@@ -1,32 +1,38 @@
 package tinder.tindermascotas.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import tinder.tindermascotas.config.CustomUserDetails;
 import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.repositories.UserRepository;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserLoginService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.searchByMail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByMail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         System.out.println("Autenticando: " + user.getMail());
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getMail())
-                .password(user.getClave()) // ya encriptada
-                .roles("USER")
+        return CustomUserDetails.builder()
+                .id(user.getId())
+                .email(user.getMail())
+                .password(user.getClave())
+                .nombre(user.getNombre())
+                .apellido(user.getApellido())
                 .build();
     }
 }

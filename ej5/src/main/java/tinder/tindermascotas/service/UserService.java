@@ -1,16 +1,8 @@
 package tinder.tindermascotas.service;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.User;
@@ -19,13 +11,11 @@ import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.UserRepository;
 import tinder.tindermascotas.repositories.ZoneRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -127,25 +117,6 @@ public class UserService implements UserDetailsService {
         }
         if (zone == null) {
             throw new ErrorService("Zona no encontrada");
-        }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        User user = userRepository.searchByMail(mail);
-        if (user != null) {
-            List<GrantedAuthority> permits = new ArrayList<>();
-            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO");
-            permits.add(p1);
-
-            ServletRequestAttributes att = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpSession session = att.getRequest().getSession(true);
-            session.setAttribute("ussersession", user);
-
-            org.springframework.security.core.userdetails.User secUser = new org.springframework.security.core.userdetails.User(user.getMail(), user.getClave(), permits);
-            return secUser;
-        } else {
-            return null;
         }
     }
 }
