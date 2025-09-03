@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import tinder.tindermascotas.entities.Pet;
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.entities.Zone;
@@ -108,6 +109,14 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public User searchById(String id) throws ErrorService{
+        Optional<User> response = userRepository.findById(id);
+        if (response.isPresent()) {
+            return response.get();
+        } else{
+            throw new ErrorService("No existe la mascota solicitada");
+        }
+    }
 
     private void validate(String nombre, String apellido, String mail, String clave1, String clave2, Zone zone) throws ErrorService {
         if (nombre == null || nombre.isEmpty()) {

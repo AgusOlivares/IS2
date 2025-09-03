@@ -18,7 +18,7 @@ public class PhotoService {
 
     @Transactional
     public Photo save(MultipartFile file) throws ErrorService {
-        if (file != null) {
+        if (file != null && !file.isEmpty()) {
             try {
                 Photo photo = new Photo();
                 photo.setMime(file.getContentType());

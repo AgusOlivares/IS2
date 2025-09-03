@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import tinder.tindermascotas.enums.Sexo;
+import tinder.tindermascotas.enums.Type;
 
 import java.util.Date;
 
@@ -20,6 +21,8 @@ public class Pet {
     private String nombre;
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date alta;

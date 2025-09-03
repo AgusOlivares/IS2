@@ -48,6 +48,8 @@
   </nav>
 
   <header>
+      <!-- dejo los dos para ver cual queda mejor -->
+      <h1 style="margin-top:80px; text-align: center;"><span th:text="${perfil.id ==null ? 'Crear' : 'Actualizar'}"></span>Mascota</h1>
       <h1 style="margin-top:80px; text-align: center;"><span th:text="${accion}"></span>Mascota</h1>
   </header>
 
@@ -63,7 +65,7 @@
         </div>
         <div class="col-lg-6 order-lg-1">
           <div class="p-5">
-            <form enctype="multipart/form-data">
+            <form action="/mascota/actualizar" method="POST" enctype="multipart/form-data">
                 
                <p th:if="${error != null}" th:text="${error}" style="color:red;"></p> 
                

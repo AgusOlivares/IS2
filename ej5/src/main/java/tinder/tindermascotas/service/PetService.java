@@ -8,6 +8,7 @@ import tinder.tindermascotas.entities.Pet;
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.enums.Sexo;
+import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.PetRepository;
 import tinder.tindermascotas.repositories.UserRepository;
@@ -26,14 +27,16 @@ public class PetService {
     private PhotoService photoService;
 
     @Transactional
-    public void addPet(MultipartFile file, String idUsser, String name, Sexo sexo) throws ErrorService {
-        User user = userRepository.findById(idUsser).get(); // TODO chequear este opcional, user no utilizado
+    public void addPet(MultipartFile file, String idUser, String name, Sexo sexo, Type type) throws ErrorService {
+        User user = userRepository.findById(idUser).get(); // TODO chequear este opcional, user no utilizado
         validate(name, sexo);
         Pet pet = new Pet();
         pet.setNombre(name);
         pet.setSexo(sexo);
+        pet.setUser(user);
+        pet.setPhoto((Photo) file);
+        pet.setType(type);
         pet.setAlta(new Date());
-
         Photo photo = photoService.save(file);
         pet.setPhoto(photo);
         petRepository.save(pet);
@@ -62,7 +65,7 @@ public class PetService {
 
     /// habria que setear el id del usuario en la mascota??
     @Transactional
-    public void modify(String idUsser, String idPet, String name, Sexo sexo) throws ErrorService {
+    public void modify(MultipartFile file,String idUsser, String idPet, String name, Sexo sexo, Type type) throws ErrorService {
         validate(name, sexo);
         Optional<Pet> response = petRepository.findById(idPet);
         if (response.isPresent()) {
@@ -70,6 +73,9 @@ public class PetService {
             if (pet.getUser().getId().equals(idUsser)) {
                 pet.setNombre(name);
                 pet.setSexo(sexo);
+                pet.setPhoto((Photo) file);
+                pet.setType(type);
+
                 petRepository.save(pet);
             } else {
                 throw new ErrorService("No tiene permisos para esta operación");
@@ -86,6 +92,15 @@ public class PetService {
         }
         if (sexo == null) {
             throw new ErrorService("El sexo no puede ser nulo");
+        }
+    }
+
+    public Pet searchById(String idPet) throws ErrorService{
+        Optional<Pet> response = petRepository.findById(idPet);
+        if (response.isPresent()) {
+            return response.get();
+        } else{
+            throw new ErrorService("No existe la mascota solicitada");
         }
     }
 }
