@@ -1,7 +1,6 @@
 package tinder.tindermascotas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,6 @@ public class PortalController {
         return "index";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
     public String inicio() {
         return "inicio";

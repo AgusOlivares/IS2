@@ -6,8 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tinder.tindermascotas.entities.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     @Query("SELECT u FROM User u WHERE u.mail = :mail")
     public User searchByMail(@Param("mail") String mail);
+
+    public Optional<User> findByMail(String mail);
 }
