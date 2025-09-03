@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.entities.Pet;
-import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.enums.Sexo;
+import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.service.PetService;
 import tinder.tindermascotas.service.UserService;
-import tinder.tindermascotas.entities.User;
 
 @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
 @Controller
@@ -50,7 +49,6 @@ public class PetController {
         return "mascota";
     }
 
-    @PreAuthorize("hasAnyROle('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/actualizar-perfil")
     public String registrar(ModelMap model, HttpSession Session, MultipartFile file, @RequestParam(required = false) String id, @RequestParam String idUser, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type ){
         Pet pet = new Pet();
