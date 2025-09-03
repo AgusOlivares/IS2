@@ -12,7 +12,7 @@ public class NotificationService {
     private JavaMailSender mailSender;
 
     @Async
-    public void send(String body, String title, String mail){
+    public void send(String body, String title, String mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("noreply@tinder-mascotas.com");
         message.setTo(mail);

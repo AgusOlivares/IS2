@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // Permit access to the login page and static resources
-                        .requestMatchers("/login","/registro", "/registrar","/exito", "/css/**", "/js/**", "/img/**", "/webjars/**", "/vendor/**").permitAll()
+                        .requestMatchers("/login", "/registro", "/registrar", "/exito", "/css/**", "/js/**", "/img/**", "/webjars/**", "/vendor/**").permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )

@@ -1,36 +1,37 @@
 package tinder.tindermascotas.service;
 
-import tinder.tindermascotas.entities.Pet;
-import tinder.tindermascotas.entities.Votes;
-import tinder.tindermascotas.exceptions.ErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tinder.tindermascotas.entities.Pet;
+import tinder.tindermascotas.entities.Vote;
+import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.PetRepository;
-import tinder.tindermascotas.repositories.VotesRepository;
+import tinder.tindermascotas.repositories.VoteRepository;
 
 import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class VotesService {
+public class VoteService {
     @Autowired
     private PetRepository petRepository;
     @Autowired
-    private VotesRepository votesRepository;
+    private VoteRepository voteRepository;
     @Autowired
     private NotificationService notificationService;
 
-    public void vote(String idUsser, String idPet1, String idPet2) throws ErrorService {
-        Votes vote = new Votes();
+    public void vote(String userId, String idPet1, String idPet2) throws ErrorService {
+        Vote vote = new Vote();
         vote.setFecha(new Date());
         if (idPet1.equals(idPet2)) {
-            throw new ErrorService("No puede votarse a si mismo");}
+            throw new ErrorService("No puede votarse a si mismo");
+        }
 
         Optional<Pet> response = petRepository.findById(idPet1);
-        if  (response.isPresent()) {
+        if (response.isPresent()) {
             Pet pet1 = response.get();
-            if(pet1.getUsser().getId().equals(response)){
-                vote.setPet1(pet1);
+            if (pet1.getUser().getId().equals(userId)) {
+                vote.setVoterPet(pet1);
             } else {
                 throw new ErrorService("No tiene permisos para realizar esta operación");
             }
@@ -39,27 +40,27 @@ public class VotesService {
         }
 
         Optional<Pet> response2 = petRepository.findById(idPet2);
-        if(response2.isPresent()) {
+        if (response2.isPresent()) {
             Pet pet2 = response2.get();
-            vote.setPet2(pet2);
-            notificationService.send("Su Mascota ha sido votada", "Tinder de Mascotas", pet2.getUsser().getMail());
+            vote.setVotedPed(pet2);
+            notificationService.send("Su Mascota ha sido votada", "Tinder de Mascotas", pet2.getUser().getMail());
 
         } else {
             throw new ErrorService("No existe una mascota con ese identificador");
         }
 
-        votesRepository.save(vote);
+        voteRepository.save(vote);
     }
 
-    public void response(String usserId, String voteId) throws ErrorService {
-        Optional<Votes> response = votesRepository.findById(voteId);
+    public void response(String userId, String voteId) throws ErrorService {
+        Optional<Vote> response = voteRepository.findById(voteId);
         if (response.isPresent()) {
-            Votes vote = response.get();
+            Vote vote = response.get();
             vote.setRespuesta(new Date());
 
-            if(vote.getPet2().getUsser().getId().equals(usserId)) {
-                notificationService.send("Tu voto fue correspondido", "Tinder de Mascotas", vote.getPet1().getUsser().getMail());
-                votesRepository.save(vote);
+            if (vote.getVotedPed().getUser().getId().equals(userId)) {
+                notificationService.send("Tu voto fue correspondido", "Tinder de Mascotas", vote.getVoterPet().getUser().getMail());
+                voteRepository.save(vote);
             } else {
                 throw new ErrorService("No tiene permisos para realizar esta operacion");
             }

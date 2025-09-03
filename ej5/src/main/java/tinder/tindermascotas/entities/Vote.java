@@ -3,31 +3,27 @@ package tinder.tindermascotas.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import tinder.tindermascotas.enums.Sexo;
 
 import java.util.Date;
 
 @Entity
+@Setter
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pet {
+public class Vote {
     @Id
     @GeneratedValue
     @UuidGenerator
     private String id;
-    private String nombre;
-    @Enumerated(EnumType.STRING)
-    private Sexo sexo;
-
     @Temporal(TemporalType.TIMESTAMP)
-    private Date alta;
+    private Date fecha;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date baja;
+    private Date respuesta;
 
     @ManyToOne
-    private User user;
-    @OneToOne
-    private Photo photo;
+    private Pet voterPet; // origina el voto
+    @ManyToOne
+    private Pet votedPed; // recibe el voto
 }

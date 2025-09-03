@@ -1,12 +1,6 @@
 package tinder.tindermascotas.service;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import tinder.tindermascotas.entities.Photo;
-import tinder.tindermascotas.entities.User;
-import tinder.tindermascotas.entities.Zone;
-import tinder.tindermascotas.exceptions.ErrorService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import tinder.tindermascotas.entities.Photo;
+import tinder.tindermascotas.entities.User;
+import tinder.tindermascotas.entities.Zone;
+import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.UserRepository;
 import tinder.tindermascotas.repositories.ZoneRepository;
 
@@ -60,7 +60,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void modify(MultipartFile file, String id, String nombre, String apellido, String mail, String clave1, String clave2, String idZona) throws ErrorService {
         Zone zone = zoneRepository.getZoneById(idZona);
-        validate(nombre, apellido, mail, clave1, clave2,zone);
+        validate(nombre, apellido, mail, clave1, clave2, zone);
         Optional<User> response = userRepository.findById(id);
         if (response.isPresent()) {
             User user = response.get();
@@ -85,7 +85,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void enable (String id) throws ErrorService {
+    public void enable(String id) throws ErrorService {
         Optional<User> response = userRepository.findById(id);
         if (response.isPresent()) {
             User user = response.get();
@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void disable (String id) throws ErrorService {
+    public void disable(String id) throws ErrorService {
         Optional<User> response = userRepository.findById(id);
         if (response.isPresent()) {
             User user = response.get();
@@ -109,23 +109,23 @@ public class UserService implements UserDetailsService {
     }
 
 
-    private void validate(String nombre, String apellido, String mail, String clave1, String clave2, Zone zone)  throws ErrorService{
-        if (nombre ==null || nombre.isEmpty()){
+    private void validate(String nombre, String apellido, String mail, String clave1, String clave2, Zone zone) throws ErrorService {
+        if (nombre == null || nombre.isEmpty()) {
             throw new ErrorService("El nombre del usuario no puede ser nulo");
         }
-        if (apellido ==null || apellido.isEmpty()){
+        if (apellido == null || apellido.isEmpty()) {
             throw new ErrorService("El apellido del usuario no puede ser nulo");
         }
-        if (mail ==null || mail.isEmpty()){
+        if (mail == null || mail.isEmpty()) {
             throw new ErrorService("El mail del usuario no puede ser nulo");
         }
-        if (clave1 == null || clave1.isEmpty() || clave1.length()<=6){
+        if (clave1 == null || clave1.length() <= 6) {
             throw new ErrorService("La clave del usuario no puede ser nula y tiene que ser de mas de 6 digitos");
         }
-        if (!clave1.equals(clave2)){
+        if (!clave1.equals(clave2)) {
             throw new ErrorService("Las claves del usuario no coinciden");
         }
-        if (zone == null){
+        if (zone == null) {
             throw new ErrorService("Zona no encontrada");
         }
     }

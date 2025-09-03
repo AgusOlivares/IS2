@@ -34,7 +34,7 @@ public class PortalController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout,  ModelMap model) {
+    public String login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap model) {
         if (error != null) {
             model.put("error", "Usuario o clave incorrectos");
         }
@@ -49,19 +49,18 @@ public class PortalController {
         try {
             List<Zone> zonas = (List<Zone>) zoneRepository.findAll();
             model.put("zonas", zonas);
-            ///model.addAttribute("zonas", zonas); // TODO enviar las zonas verdaderas
             return "registro";
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return "";
+            return "error"; // TODO no sé si debería devolver esto
         }
     }
 
     @PostMapping("/registrar")
-    public String registrar(ModelMap model , MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2, @RequestParam String idZona) {
+    public String registrar(ModelMap model, MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2, @RequestParam String idZona) {
         try {
             userService.register(archivo, nombre, apellido, mail, clave1, clave2, idZona);
-        } catch (ErrorService ex){
+        } catch (ErrorService ex) {
             List<Zone> zonas = (List<Zone>) zoneRepository.findAll();
             model.put("zonas", zonas);
             model.put("error", ex.getMessage());

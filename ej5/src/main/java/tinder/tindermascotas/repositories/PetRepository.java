@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PetRepository extends JpaRepository<Pet, String> {
 
-    @Query("SELECT c FROM Pet c WHERE c.user.id = :id")
+    @Query("SELECT p FROM Pet p WHERE p.user.id = :id")
     public List<Pet> buscarMascotasPorUsuario(@Param("id") String id);
 
 }
