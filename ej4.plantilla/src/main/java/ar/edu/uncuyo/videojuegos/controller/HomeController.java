@@ -29,11 +29,12 @@ public class HomeController {
     public String inicio(Model model) {
 
         Collection<Videogame> videogameList = videogameService.getAllVideogames();
+
         Collection<Studio> studioList = studioService.getAllStudios();
         Collection<Category> categoryList = categoryService.getAllCategories();
 
-        model.addAttribute("studios", studioList);
-        model.addAttribute("categories", categoryList);
+        model.addAttribute("studios", studioList.size());
+        model.addAttribute("categories", categoryList.size());
 
         model.addAttribute("videogameLista", videogameList);
         model.addAttribute("cantidadVideogamess", videogameList.size());

@@ -25,8 +25,8 @@ public class VideogameController {
     private VideogameService videogameService;
 
     private String viewList = "plantilla/index";
-    private String viewEdit = "view/videogame/edit";
-    private String redirectList = "redirect:/videogames";
+    private String viewEdit = "plantilla/view/videogame/edit";
+    private String redirectList = "redirect:/index";
     @Autowired
     private CategoryService categoryService;
     @Autowired

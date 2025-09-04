@@ -1,123 +1,264 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
- <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Edit Videogame</title>
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <link
+            rel="icon"
+            href="assets/img/kaiadmin/favicon.ico"
+            type="image/x-icon"
+    />
 
-    <title>EDIT Videojuego</title>
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
-    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
-  </head>
+    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["assets/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
 
-  <body>
-
-    <header th:insert="~{fragments/header :: header}"></header>
-
-    <main role="main">
-      <hr>
-      <div class="container">
-
-        <div class="card">
-          <h4 class="card-header"><strong>Edit Videojuego</strong></h4>
-          <div class="card-body">
-
-            <form th:action="@{/videogames/aceptarEdit}" method="post" th:object="${videogame}">
-                <input type="hidden" name="id" th:field="*{id}" >
-
-			  <div th:if="${msgExito != null}" class='alert alert-success' th:text="${msgExito}" role='alert'></div>
-			  <div th:if="${msgError != null}" class='alert alert-danger' th:text="${msgError}" role='alert'></div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="name">Título</label>
-                    <input type="text" class="form-control" th:field="*{title}" placeholder="Nombre del videojuego" required="required" th:disabled="${isDisabled}">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="description">Descripción</label>
-                        <input type="text" class="form-control" th:field="*{description}" placeholder="Descripción del estudio" required="required" th:disabled="${isDisabled}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+</head>
+<body>
+<div class="wrapper">
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <div class="logo-header" data-background-color="dark">
+                    <a th:href="@{/index}" class="logo">
+                        <img
+                                src="assets/img/kaiadmin/logo_light.svg"
+                                alt="navbar brand"
+                                class="navbar-brand"
+                                height="20"
+                        />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
                     </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
                 </div>
-                <input type="text" class="form-control" hidden th:field="*{imageUrl}" placeholder="http://google.com" th:disabled="${isDisabled}">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="price">Precio</label>
-                        <input type="number" class="form-control" th:field="*{price}" required="required" th:disabled="${isDisabled}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="amount">Cantidad</label>
-                        <input type="number" class="form-control" th:field="*{amount}" required="required" th:disabled="${isDisabled}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="releaseDate">Fecha de lanzamiento</label>
-                        <input type="date" class="form-control" th:field="*{releaseDate}" required="required" th:disabled="${isDisabled}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="onSale">En oferta</label>
-                        <input type="checkbox" class="form-control" th:field="*{onSale}" required="required" th:disabled="${isDisabled}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="studio">Studio</label>
-                        <select id="studio" name="studioId" class="form-control"
-                                th:disabled="${isDisabled}">
-                            <option th:each="studio : ${studios}"
-                                    th:value="${studio.id}"
-                                    th:text="${studio.name}"
-                                    th:selected="${videogame.studio != null and studio.id == videogame.studio.id}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="category">Categoría</label>
-                        <select id="category" name="categoryId" class="form-control"
-                                th:disabled="${isDisabled}">
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.id}"
-                                    th:text="${category.name}"
-                                    th:selected="${videogame.category != null and category.id == videogame.category.id}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-              </div>
-
-              <hr>
-			  <div class="d-grid gap-2 float-right justify-content-md-end">
-               <button type="submit" title="Guardar el registro." class="btn btn-primary" th:disabled="${isDisabled}">ACEPTAR</button>
-			   <a class="btn btn-primary" th:href="@{/videogames}" role="button">CANCELAR</a>
-			  </div>
-
-			</form>
-
-          </div>
+            </div>
+            <header th:insert="~{fragments/header :: header}"></header>
         </div>
-      </div>
 
-    </main>
+        <div class="container">
+            <div class="page-inner">
+                <div
+                        class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
+                >
+                    <div>
+                        <h3 class="fw-bold mb-3">Edit Videogame</h3>
+                    </div>
+                </div>
 
-    <footer th:insert="~{fragments/footer :: footer}" class="footer"></footer>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><strong>Edit Videogame</strong></h4>
+                            </div>
+                            <div class="card-body">
+                                <form
+                                        th:action="@{/videogames/aceptarEdit}"
+                                        method="post"
+                                        th:object="${videogame}"
+                                >
+                                    <input type="hidden" name="id" th:field="*{id}" />
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+                                    <div
+                                            th:if="${msgExito != null}"
+                                            class="alert alert-success"
+                                            th:text="${msgExito}"
+                                            role="alert"
+                                    ></div>
+                                    <div
+                                            th:if="${msgError != null}"
+                                            class="alert alert-danger"
+                                            th:text="${msgError}"
+                                            role="alert"
+                                    ></div>
 
-  </body>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Título</label>
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        th:field="*{title}"
+                                                        placeholder="Nombre del videojuego"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="description">Descripción</label>
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        th:field="*{description}"
+                                                        placeholder="Descripción del estudio"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                hidden
+                                                th:field="*{imageUrl}"
+                                                placeholder="http://google.com"
+                                                th:disabled="${isDisabled}"
+                                        />
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="price">Precio</label>
+                                                <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        th:field="*{price}"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="amount">Cantidad</label>
+                                                <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        th:field="*{amount}"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="releaseDate">Fecha de lanzamiento</label>
+                                                <input
+                                                        type="date"
+                                                        class="form-control"
+                                                        th:field="*{releaseDate}"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="onSale">En oferta</label>
+                                                <input
+                                                        type="checkbox"
+                                                        class="form-control"
+                                                        th:field="*{onSale}"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="studio">Studio</label>
+                                                <select
+                                                        id="studio"
+                                                        name="studioId"
+                                                        class="form-control"
+                                                        th:disabled="${isDisabled}"
+                                                >
+                                                    <option
+                                                            th:each="studio : ${studios}"
+                                                            th:value="${studio.id}"
+                                                            th:text="${studio.name}"
+                                                            th:selected="${videogame.studio != null and studio.id == videogame.studio.id}"
+                                                    ></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="category">Categoría</label>
+                                                <select
+                                                        id="category"
+                                                        name="categoryId"
+                                                        class="form-control"
+                                                        th:disabled="${isDisabled}"
+                                                >
+                                                    <option
+                                                            th:each="category : ${categories}"
+                                                            th:value="${category.id}"
+                                                            th:text="${category.name}"
+                                                            th:selected="${videogame.category != null and category.id == videogame.category.id}"
+                                                    ></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <div class="d-grid gap-2 float-right justify-content-md-end">
+                                        <button
+                                                type="submit"
+                                                title="Guardar el registro."
+                                                class="btn btn-primary"
+                                                th:disabled="${isDisabled}"
+                                        >
+                                            ACEPTAR
+                                        </button>
+                                        <a class="btn btn-primary" th:href="@{/index}" role="button"
+                                        >CANCELAR</a
+                                        >
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:insert="~{fragments/footer :: footer}"></footer>
+</div>
+<script src="assets/js/core/jquery-3.7.1.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+
+<script src="assets/js/kaiadmin.min.js"></script>
+</body>
 </html>
