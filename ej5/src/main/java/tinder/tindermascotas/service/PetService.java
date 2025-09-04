@@ -69,10 +69,10 @@ public class PetService {
         Optional<Pet> response = petRepository.findById(idPet);
         if (response.isPresent()) {
             Pet pet = response.get();
-            Photo photo = photoService.save(file);
             if (pet.getUser().getId().equals(idUsser)) {
                 pet.setNombre(name);
                 pet.setSexo(sexo);
+                Photo photo = photoService.save(file);
                 pet.setPhoto(photo);
                 pet.setType(type);
 

@@ -84,12 +84,10 @@
 
               <label th:if="${accion != 'Eliminar'}">Foto</label>
               <input type="file" class="form-control" name="file" th:if="${accion != 'Eliminar'}"/>
-              
               <br/>
-
                  <button type="submit" class="btn btn-dark" formaction="/mascota/mis-mascotas" formmethod="GET">Volver</button>
                  <button th:if="${accion == 'Crear'}" type="submit" class="btn btn-primary" formaction="/mascota/actualizar-perfil" formmethod="POST">Crear Mascota</button>
-                 <button th:if="${accion == 'Actualizar'}" type="submit" class="btn btn-primary" formaction="/mascota/actualizar" formmethod="POST">Actualizar Mascota</button>
+                 <button th:if="${accion == 'Actualizar'}" type="submit" class="btn btn-primary" formaction="/mascota/editar" formmethod="POST">Actualizar Mascota</button>
                  <button th:if="${accion == 'Eliminar'}" type="submit" class="btn btn-danger" formaction="/mascota/borrar" formmethod="POST">Eliminar Mascota</button>
                  <button th:if="${accion == 'Alta'}" type="submit" class="btn btn-primary" formaction="/mascota/alta" formmethod="POST">Dar Alta</button>
             </form>
