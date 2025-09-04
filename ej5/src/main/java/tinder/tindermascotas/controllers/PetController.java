@@ -68,6 +68,21 @@ public class PetController {
             return "mascota";
         }
     }
+    @GetMapping("/{petId}/editar")
+    public String editar(ModelMap model, @AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable String petId) {
+        model.put("sexos", Sexo.values());
+        model.put("types", Type.values());
+        Pet pet = petService.searchById(petId);
+        model.put("pet", pet);
+        model.put("accion", "Actualizar");
+        return "mascota";
+    }
+
+    @PostMapping("/editar")
+    public String editar(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestParam String id, MultipartFile file) {
+        petService.delete(file, customUserDetails.getId(), id);
+        return "redirect:/mascota/mis-mascotas";
+    }
 
     @GetMapping("/{petId}/borrar")
     public String borrar(ModelMap model, @AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable String petId) {

@@ -72,7 +72,8 @@ public class PetService {
             if (pet.getUser().getId().equals(idUsser)) {
                 pet.setNombre(name);
                 pet.setSexo(sexo);
-                pet.setPhoto((Photo) file);
+                Photo photo = photoService.save(file);
+                pet.setPhoto(photo);
                 pet.setType(type);
 
                 petRepository.save(pet);
