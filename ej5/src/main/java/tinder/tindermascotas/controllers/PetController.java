@@ -2,7 +2,7 @@ package tinder.tindermascotas.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import tinder.tindermascotas.config.CustomUserDetails;
 import tinder.tindermascotas.entities.Pet;
+import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.enums.Sexo;
 import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.service.PetService;
 import tinder.tindermascotas.service.UserService;
 
-@PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+import java.util.List;
+
 @Controller
 @RequestMapping("/mascota")
 public class PetController {
@@ -27,49 +30,45 @@ public class PetController {
     @Autowired
     private PetService petService;
 
-    @GetMapping("/editar-perfil")
-    public String editarPerfil(HttpSession Session, @RequestParam(required = false) String id, ModelMap model) {
-        /* Poner cuando funcione el login aca y en registrar
-        User login = (User)session.getAttribute("usuariosession");
-        if (login == null){
-        return "redirect:/inicio
-        }
-        * */
+    @GetMapping("/mis-mascotas")
+    public String misMascotas(ModelMap model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<Pet> mascotas = petService.searchByUser(customUserDetails.getId());
+        model.put("mascota", mascotas);
+        return "mascotas";
+    }
+
+    @GetMapping("/agregarMascota")
+    public String agregar(ModelMap model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        User user = userService.searchById(userDetails.getId());
+        model.put("perfil", user);
+        model.put("sexos", Sexo.values());
+        model.put("types", Type.values());
         Pet pet = new Pet();
-        if (id != null && !id.isEmpty()) {
-            try {
-                pet = petService.searchById(id);
-            } catch (ErrorService e) {
-                throw new RuntimeException(e);
-            }
-        }
-        model.put("perfil", pet);
-        model.put("Sexos", Sexo.values());
-        model.put("Tipos", Type.values());
+        model.put("pet", pet);
+
         return "mascota";
     }
 
-    @PostMapping("/actualizar-perfil")
-    public String registrar(ModelMap model, HttpSession Session, MultipartFile file, @RequestParam(required = false) String id, @RequestParam String idUser, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type ){
-        Pet pet = new Pet();
+
+
+    @PostMapping("/actualizar")
+    public String actualizar(ModelMap model, MultipartFile file, @RequestParam(required = false) String id, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type ){
+        System.out.println("hola");
+        User user = userService.searchById(userDetails.getId());
         try {
             if (id == null || id.isEmpty()) {
-                petService.addPet(file, idUser, name, sexo, type);
+                petService.addPet(file, user.getId(), name, sexo, type);
             } else{
-                petService.modify(file, idUser, id, name, sexo, type);
+                petService.modify(file, user.getId(), id, name, sexo, type);
             }
+            return "redirect:/inicio";
         } catch (ErrorService e) {
-            pet.setId(id);
-            pet.setNombre(name);
-            pet.setSexo(sexo);
-            pet.setType(type);
             model.put("sexos", Sexo.values());
-            model.put("tipos", Type.values());
+            model.put("types", Type.values());
             model.put("error", e.getMessage());
-            model.put("perfil", idUser); ///deberia ser el usuario aca
-
+            model.put("perfil", user);
         }
-        return "perfil";
+        return "mascota";
     }
 
 }

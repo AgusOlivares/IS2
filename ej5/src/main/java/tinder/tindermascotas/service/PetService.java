@@ -14,6 +14,7 @@ import tinder.tindermascotas.repositories.PetRepository;
 import tinder.tindermascotas.repositories.UserRepository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,11 +35,10 @@ public class PetService {
         pet.setNombre(name);
         pet.setSexo(sexo);
         pet.setUser(user);
-        pet.setPhoto((Photo) file);
-        pet.setType(type);
-        pet.setAlta(new Date());
         Photo photo = photoService.save(file);
         pet.setPhoto(photo);
+        pet.setType(type);
+        pet.setAlta(new Date());
         petRepository.save(pet);
     }
 
@@ -102,5 +102,9 @@ public class PetService {
         } else{
             throw new ErrorService("No existe la mascota solicitada");
         }
+    }
+
+    public List<Pet> searchByUser(String id) {
+        return petRepository.buscarMascotasPorUsuario(id);
     }
 }
