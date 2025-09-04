@@ -22,7 +22,10 @@ public class User {
     private String id;
     private String nombre;
     private String apellido;
+
+    @Column(unique = true)
     private String mail;
+
     private String clave;
 
     @ManyToOne

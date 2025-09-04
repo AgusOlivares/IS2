@@ -14,4 +14,6 @@ public interface VideogameRepository extends JpaRepository<Videogame, Long> {
     Optional<Videogame> findByIdAndActiveTrue(Long id);
 
     boolean existsByTitleAndActiveTrue(String name);
+
+    boolean existsByTitleAndActiveTrueAndIdNot(String title, Long id);
 }

@@ -50,7 +50,7 @@ public class VideogameService {
         Videogame game = videogameRepository.findByIdAndActiveTrue(newGame.getId())
                 .orElseThrow(() -> new BusinessException("Videojuego no encontrado"));
 
-        if (videogameRepository.existsByTitleAndActiveTrue(newGame.getTitle())) {
+        if (videogameRepository.existsByTitleAndActiveTrueAndIdNot(newGame.getTitle(), game.getId())) {
             throw new BusinessException("Ya existe un videojuego con ese nombre");
         }
 

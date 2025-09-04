@@ -28,7 +28,9 @@ public class UserController {
     private ZoneRepository zoneRepository;
 
     @PostMapping("/registrar")
-    public String registrar(ModelMap model, MultipartFile archivo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1, @RequestParam String clave2, @RequestParam String idZona) {
+    public String registrar(ModelMap model, MultipartFile archivo, @RequestParam String nombre,
+                            @RequestParam String apellido, @RequestParam String mail, @RequestParam String clave1,
+                            @RequestParam String clave2, @RequestParam String idZona) {
         try {
             userService.register(archivo, nombre, apellido, mail, clave1, clave2, idZona);
         } catch (ErrorService ex) {
@@ -47,18 +49,35 @@ public class UserController {
 
     @GetMapping("/editar-perfil")
     public String editarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails, ModelMap model) {
-        List<Zone> zonas = zoneRepository.findAll();
-
-        model.put("zones", zonas);
-
-        User user = userService.searchById(userDetails.getId());
-        model.addAttribute("profile", user);
-
+        prepareEditView(model, userDetails.getId());
         return "perfil";
     }
 
-//    @PostMapping("/actualizar-perfil")
-//    public String actualizarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails) {
-//
-//    }
+    @PostMapping("/actualizar-perfil")
+    public String actualizarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails, ModelMap model, MultipartFile archivo,
+                                   @RequestParam String nombre, @RequestParam String apellido, @RequestParam String mail,
+                                   @RequestParam String clave1, @RequestParam String clave2, @RequestParam String idZona) {
+        try {
+            String userId = userDetails.getId();
+            userService.modify(archivo, userId, nombre, apellido, mail, clave1, clave2, idZona);
+            return "redirect:/usuario/editar-perfil";
+        } catch (ErrorService e) {
+            prepareEditView(model, userDetails.getId());
+            model.put("error", e.getMessage());
+            return "perfil";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.put("error", "Error de sistema");
+            return "perfil";
+        }
+    }
+
+    private void prepareEditView(ModelMap model, String userId) {
+        List<Zone> zonas = zoneRepository.findAll();
+        model.put("zones", zonas);
+
+        User user = userService.searchById(userId);
+        model.addAttribute("profile", user);
+    }
 }
