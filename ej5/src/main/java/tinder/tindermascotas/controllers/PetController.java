@@ -33,27 +33,22 @@ public class PetController {
     @GetMapping("/mis-mascotas")
     public String misMascotas(ModelMap model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         List<Pet> mascotas = petService.searchByUser(customUserDetails.getId());
-        model.put("mascota", mascotas);
+        model.put("mascotas", mascotas);
         return "mascotas";
     }
-
+/// ver que editar parece que crea uno nuevo
     @GetMapping("/agregarMascota")
     public String agregar(ModelMap model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        User user = userService.searchById(userDetails.getId());
-        model.put("perfil", user);
         model.put("sexos", Sexo.values());
         model.put("types", Type.values());
         Pet pet = new Pet();
         model.put("pet", pet);
-
         return "mascota";
     }
 
 
-
     @PostMapping("/actualizar")
     public String actualizar(ModelMap model, MultipartFile file, @RequestParam(required = false) String id, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type ){
-        System.out.println("hola");
         User user = userService.searchById(userDetails.getId());
         try {
             if (id == null || id.isEmpty()) {
@@ -61,7 +56,7 @@ public class PetController {
             } else{
                 petService.modify(file, user.getId(), id, name, sexo, type);
             }
-            return "redirect:/inicio";
+            return "redirect:/mascotas";
         } catch (ErrorService e) {
             model.put("sexos", Sexo.values());
             model.put("types", Type.values());
