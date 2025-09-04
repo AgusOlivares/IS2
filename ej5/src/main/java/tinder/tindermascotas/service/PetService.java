@@ -43,11 +43,11 @@ public class PetService {
     }
 
     @Transactional
-    public void delete(MultipartFile file, String idUsser, String idPet) throws ErrorService {
-        Optional<Pet> response = petRepository.findById(idPet);
+    public void delete(MultipartFile file, String userId, String petId) throws ErrorService {
+        Optional<Pet> response = petRepository.findById(petId);
         if (response.isPresent()) {
             Pet pet = response.get();
-            if (pet.getUser().getId().equals(idUsser)) {
+            if (pet.getUser().getId().equals(userId)) {
                 pet.setBaja(new Date());
 
                 String idPhoto = null;
@@ -60,7 +60,6 @@ public class PetService {
             }
         } else
             throw new ErrorService("Mascota no encontrada");
-
     }
 
     /// habria que setear el id del usuario en la mascota??
@@ -85,7 +84,6 @@ public class PetService {
         }
     }
 
-
     public void validate(String name, Sexo sexo) throws ErrorService {
         if (name == null || name.isEmpty()) {
             throw new ErrorService("El nombre de la mascota no puede ser nulo");
@@ -106,7 +104,12 @@ public class PetService {
     }
 
     @Transactional
-    public List<Pet> searchByUser(String id) {
-        return petRepository.buscarMascotasPorUsuario(id);
+    public List<Pet> findPetsNotDeleted(String id) {
+        return petRepository.findByUserIdAndBajaIsNull(id);
+    }
+
+    @Transactional
+    public List<Pet> findPetsDeleted(String id) {
+        return petRepository.findByUserIdAndBajaIsNotNull(id);
     }
 }

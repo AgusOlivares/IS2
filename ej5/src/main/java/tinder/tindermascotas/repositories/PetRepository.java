@@ -14,4 +14,7 @@ public interface PetRepository extends JpaRepository<Pet, String> {
     @Query("SELECT p FROM Pet p WHERE p.user.id = :id")
     public List<Pet> buscarMascotasPorUsuario(@Param("id") String id);
 
+    List<Pet> findByUserIdAndBajaIsNull(String userId);
+
+    List<Pet> findByUserIdAndBajaIsNotNull(String userId);
 }
