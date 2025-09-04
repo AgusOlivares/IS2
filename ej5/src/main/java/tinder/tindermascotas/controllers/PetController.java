@@ -96,8 +96,8 @@ public class PetController {
     }
 
     @PostMapping("/borrar")
-    public String borrar(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestParam String id, MultipartFile file) {
-        petService.delete(file, customUserDetails.getId(), id);
+    public String borrar(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestParam String id) {
+        petService.delete(customUserDetails.getId(), id);
         return "redirect:/mascota/mis-mascotas";
     }
 

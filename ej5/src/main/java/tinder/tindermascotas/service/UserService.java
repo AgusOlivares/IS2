@@ -127,8 +127,8 @@ public class UserService {
         if (mail == null || mail.isEmpty()) {
             throw new ErrorService("El mail del usuario no puede ser nulo");
         }
-        if (clave1 == null || clave1.length() <= 6) {
-            throw new ErrorService("La clave del usuario no puede ser nula y tiene que ser de mas de 6 digitos");
+        if (clave1 == null || clave1.length() < 4) {
+            throw new ErrorService("La clave del usuario no puede ser nula y tiene que ser de 4 o más digitos");
         }
         if (!clave1.equals(clave2)) {
             throw new ErrorService("Las claves del usuario no coinciden");

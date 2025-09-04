@@ -37,7 +37,7 @@ public class PhotoService {
 
     @Transactional
     public Photo update(String idPhoto, MultipartFile file) throws ErrorService {
-        if (file != null) {
+        if (file != null && !file.isEmpty()) {
             try {
                 Photo photo = new Photo();
 

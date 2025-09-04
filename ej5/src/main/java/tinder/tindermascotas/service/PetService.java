@@ -43,26 +43,18 @@ public class PetService {
     }
 
     @Transactional
-    public void delete(MultipartFile file, String userId, String petId) throws ErrorService {
+    public void delete(String userId, String petId) throws ErrorService {
         Optional<Pet> response = petRepository.findById(petId);
         if (response.isPresent()) {
             Pet pet = response.get();
             if (pet.getUser().getId().equals(userId)) {
                 pet.setBaja(new Date());
-
-                String idPhoto = null;
-                if (pet.getPhoto() != null) {
-                    idPhoto = pet.getPhoto().getId();
-                }
-                Photo photo = photoService.update(idPhoto, file);
-                pet.setPhoto(photo);
                 petRepository.save(pet);
             }
         } else
             throw new ErrorService("Mascota no encontrada");
     }
 
-    /// habria que setear el id del usuario en la mascota??
     @Transactional
     public void modify(MultipartFile file,String idUsser, String idPet, String name, Sexo sexo, Type type) throws ErrorService {
         validate(name, sexo);
@@ -72,9 +64,14 @@ public class PetService {
             if (pet.getUser().getId().equals(idUsser)) {
                 pet.setNombre(name);
                 pet.setSexo(sexo);
-                Photo photo = photoService.save(file);
-                pet.setPhoto(photo);
                 pet.setType(type);
+
+                String idPhoto = null;
+                if (pet.getPhoto() != null) {
+                    idPhoto = pet.getPhoto().getId();
+                }
+                Photo photo = photoService.update(idPhoto, file);
+                pet.setPhoto(photo);
 
                 petRepository.save(pet);
             } else {
