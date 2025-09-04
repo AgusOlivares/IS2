@@ -83,7 +83,7 @@
                         <td th:text="${mascota.type}"></td>
                         
                         <td>
-                            <a th:href="@{/mascota/mis-mascotas(id=${mascota.id}, accion='Actualizar')}">Editar</a>
+                            <a th:href="@{/mascota/{id}/editar(id=${mascota.id})}">Editar</a>
                             <a th:href="@{/mascota/{id}/borrar(id=${mascota.id})}">Eliminar</a>
                         </td>
                     </tr>                  
