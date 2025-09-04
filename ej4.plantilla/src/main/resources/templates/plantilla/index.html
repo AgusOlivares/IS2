@@ -87,7 +87,8 @@
                 
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="" class="btn btn-label-info btn-round me-2">Add Study</a>
+                <a th:href="@{/categories/add}" class="btn btn-label-info btn-round me-2">Add Category</a>
+                <a th:href="@{/studios/add}" class="btn btn-label-info btn-round me-2">Add Study</a>
                 <a th:href="@{/videogames/add}" class="btn btn-primary btn-round">Add Game</a>
               </div>
             </div>
@@ -168,10 +169,10 @@
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Stock restante</p>
-                          <h4 class="card-title">576</h4>
-                        </div>
+                          <div class="numbers">
+                              <p class="card-category">Stock restante</p>
+                              <h4 class="card-title" th:text="${stockTotal}">0</h4>
+                          </div>
                       </div>
                     </div>
                   </div>

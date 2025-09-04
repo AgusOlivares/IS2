@@ -1,69 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Edit Category</title>
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
-    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <link
+            rel="icon"
+            href="assets/img/kaiadmin/favicon.ico"
+            type="image/x-icon"
+    />
+
+    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["assets/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
 </head>
-
 <body>
+<div class="wrapper">
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <div class="logo-header" data-background-color="dark">
+                    <a th:href="@{/index}" class="logo">
+                        <img
+                                src="assets/img/kaiadmin/logo_light.svg"
+                                alt="navbar brand"
+                                class="navbar-brand"
+                                height="20"
+                        />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <header th:insert="~{fragments/header :: header}"></header>
+        </div>
 
-<header th:insert="~{fragments/header :: header}"></header>
+        <div class="container">
+            <div class="page-inner">
+                <div
+                        class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
+                >
+                    <div>
+                        <h3 class="fw-bold mb-3">Edit Category</h3>
+                    </div>
+                </div>
 
-<main role="main">
-    <hr>
-    <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><strong>Edit Category</strong></h4>
+                            </div>
+                            <div class="card-body">
+                                <form
+                                        th:action="@{/categories/aceptarEdit}"
+                                        method="post"
+                                        th:object="${category}"
+                                >
+                                    <input type="hidden" name="id" th:field="*{id}" />
 
-        <div class="card">
-            <h4 class="card-header"><strong>EDIT CATEGORÍA</strong></h4>
-            <div class="card-body">
+                                    <div
+                                            th:if="${msgExito != null}"
+                                            class="alert alert-success"
+                                            th:text="${msgExito}"
+                                            role="alert"
+                                    ></div>
+                                    <div
+                                            th:if="${msgError != null}"
+                                            class="alert alert-danger"
+                                            th:text="${msgError}"
+                                            role="alert"
+                                    ></div>
 
-                <form th:action="@{/categories/aceptarEdit}" method="post" th:object="${category}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Nombre</label>
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        th:field="*{name}"
+                                                        placeholder="Escriba el nombre de la categoría"
+                                                        required="required"
+                                                        th:disabled="${isDisabled}"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <div th:if="${msgExito != null}" class='alert alert-success' th:text="${msgExito}" role='alert'></div>
-                    <div th:if="${msgError != null}" class='alert alert-danger' th:text="${msgError}" role='alert'></div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                                <input type="hidden" name="id" th:field="*{id}" >
-
-                                <label for="name">Nombre</label>
-                                <input type="text" class="form-control" th:field="*{name}" placeholder="Escriba el nombre de la categoría" required="required" th:disabled="${isDisabled}">
-
+                                    <hr />
+                                    <div class="d-grid gap-2 float-right justify-content-md-end">
+                                        <button
+                                                type="submit"
+                                                title="Guardar el registro."
+                                                class="btn btn-primary"
+                                                th:disabled="${isDisabled}"
+                                        >
+                                            ACEPTAR
+                                        </button>
+                                        <a
+                                                class="btn btn-secondary"
+                                                th:href="@{/categories/list}"
+                                                role="button"
+                                        >CANCELAR</a
+                                        >
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-                    <hr>
-                    <div class="d-grid gap-2 float-right justify-content-md-end">
-                        <button type="submit" title="Guardar el registro." class="btn btn-primary" th:disabled="${isDisabled}">ACEPTAR</button>
-                        <a class="btn btn-primary" th:href="@{/categories}" role="button">CANCELAR</a>
-                    </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
     </div>
 
-</main>
+    <footer th:insert="~{fragments/footer :: footer}"></footer>
+</div>
+<script src="assets/js/core/jquery-3.7.1.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
 
-<footer th:insert="~{fragments/footer :: footer}" class="footer"></footer>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
+<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+
+<script src="assets/js/kaiadmin.min.js"></script>
 </body>
 </html>

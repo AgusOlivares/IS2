@@ -23,8 +23,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     private String viewList = "view/category/list";
-    private String viewEdit = "view/category/edit";
-    private String redirectList = "redirect:/categories";
+    private String viewEdit = "plantilla/view/category/edit";
+    private String redirectList = "redirect:/index";
 
     @GetMapping("")
     public String list(Model model) {

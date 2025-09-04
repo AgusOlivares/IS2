@@ -23,8 +23,8 @@ public class StudioController {
     private StudioService studioService;
 
     private String viewList = "view/studio/list";
-    private String viewEdit = "view/studio/edit";
-    private String redirectList = "redirect:/studios";
+    private String viewEdit = "plantilla/view/studio/edit";
+    private String redirectList = "redirect:/index";
 
     @GetMapping("")
     public String list(Model model) {

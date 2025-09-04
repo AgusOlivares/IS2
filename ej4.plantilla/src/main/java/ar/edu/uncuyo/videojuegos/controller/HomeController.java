@@ -33,6 +33,15 @@ public class HomeController {
         Collection<Studio> studioList = studioService.getAllStudios();
         Collection<Category> categoryList = categoryService.getAllCategories();
 
+
+        long stockTotal = videogameList.stream()
+                .mapToLong(Videogame::getAmount)
+                .sum();
+
+        // Agregas la variable 'stockTotal' al modelo
+        model.addAttribute("stockTotal", stockTotal);
+
+
         model.addAttribute("studios", studioList.size());
         model.addAttribute("categories", categoryList.size());
 
