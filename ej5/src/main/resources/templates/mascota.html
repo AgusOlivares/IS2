@@ -87,7 +87,6 @@
               
               <br/>
 
-                <button type="submit" class="btn btn-primary">Actualizar Mascota</button>
                  <button type="submit" class="btn btn-dark" formaction="/mascota/mis-mascotas" formmethod="GET">Volver</button>
                  <button th:if="${accion == 'Crear'}" type="submit" class="btn btn-primary" formaction="/mascota/actualizar-perfil" formmethod="POST">Crear Mascota</button>
                  <button th:if="${accion == 'Actualizar'}" type="submit" class="btn btn-primary" formaction="/mascota/actualizar" formmethod="POST">Actualizar Mascota</button>

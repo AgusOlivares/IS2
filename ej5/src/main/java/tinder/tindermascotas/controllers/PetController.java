@@ -96,8 +96,9 @@ public class PetController {
     }
 
     @PostMapping("/alta")
-    public String darAlta(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestParam String id, MultipartFile file) {
-//        petService.(file, customUserDetails.getId(), id);
+    public String darAlta(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestParam String id,
+                          MultipartFile file, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type) {
+        petService.darAlta(file, customUserDetails.getId(), id, name, sexo, type);
         return "redirect:/mascota/mis-mascotas";
     }
 }

@@ -69,10 +69,11 @@ public class PetService {
         Optional<Pet> response = petRepository.findById(idPet);
         if (response.isPresent()) {
             Pet pet = response.get();
+            Photo photo = photoService.save(file);
             if (pet.getUser().getId().equals(idUsser)) {
                 pet.setNombre(name);
                 pet.setSexo(sexo);
-                pet.setPhoto((Photo) file);
+                pet.setPhoto(photo);
                 pet.setType(type);
 
                 petRepository.save(pet);
@@ -91,6 +92,16 @@ public class PetService {
         if (sexo == null) {
             throw new ErrorService("El sexo no puede ser nulo");
         }
+    }
+
+    @Transactional
+    public void darAlta(MultipartFile file, String idUser, String petId, String name, Sexo sexo, Type type) {
+        modify(file, idUser, petId, name, sexo, type);
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new ErrorService("Mascota no encontrada"));
+
+        pet.setBaja(null);
+        petRepository.save(pet);
     }
 
     @Transactional
