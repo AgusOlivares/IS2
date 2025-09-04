@@ -48,7 +48,7 @@
   </nav>
 
   <header>
-      <h1 style="margin-top:80px; text-align: center;"><span th:text="${perfil.id ==null ? 'Crear ' : 'Actualizar '}"></span>Mascota</h1>
+      <h1 style="margin-top:80px; text-align: center;"><span th:text="${pet.id == null ? 'Crear ' : 'Actualizar '}"></span>Mascota</h1>
   </header>
 
   <section>
@@ -56,21 +56,21 @@
       <div class="row align-items-center">
         <div class="col-lg-6 order-lg-2">
           <div class="p-5">
-              <img th:if="${perfil.photo != null}" class="img-fluid rounded-circle" th:src="${'/foto/mascota/' + perfil.id}" alt="">
+              <img th:if="${pet.photo != null}" class="img-fluid rounded-circle" th:src="${'/photo/mascota/' + pet.id}" alt="">
                   
-              <img th:if="${perfil.photo == null}" class="img-fluid rounded-circle" src="/img/m1.jpeg" alt="">
+              <img th:if="${pet.photo == null}" class="img-fluid rounded-circle" src="/img/m1.jpeg" alt="">
           </div>
         </div>
         <div class="col-lg-6 order-lg-1">
           <div class="p-5">
-            <form action="/mascota/actualizar" method="POST" enctype="multipart/form-data">
+            <form action="/mascota/actualizar" method="POST" enctype="multipart/form-data"> 
                 
                <p th:if="${error != null}" th:text="${error}" style="color:red;"></p> 
                
-               <input type="hidden" name="id" th:value="${perfil.id}"/>
+               <input type="hidden" name="id" th:value="${pet.id}"/>
                 
               <label>Nombre de la mascota</label>
-              <input type="text" class="form-control" name="name" th:value="${perfil.nombre}" th:disabled="${accion == 'Eliminar'}"/>
+              <input type="text" class="form-control" name="name" th:value="${pet.nombre}" th:disabled="${accion == 'Eliminar'}"/>
               
               <label>Tipo</label>
               <select class="form-control" name="type" th:disabled="${accion == 'Eliminar'}">

@@ -20,7 +20,4 @@ public class Photo {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] content;
-
-    @OneToOne
-    private Photo photo;
 }

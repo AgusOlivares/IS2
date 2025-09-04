@@ -1,8 +1,8 @@
 package tinder.tindermascotas.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.entities.Pet;
 import tinder.tindermascotas.entities.Photo;
@@ -95,6 +95,7 @@ public class PetService {
         }
     }
 
+    @Transactional
     public Pet searchById(String idPet) throws ErrorService{
         Optional<Pet> response = petRepository.findById(idPet);
         if (response.isPresent()) {
@@ -104,6 +105,7 @@ public class PetService {
         }
     }
 
+    @Transactional
     public List<Pet> searchByUser(String id) {
         return petRepository.buscarMascotasPorUsuario(id);
     }

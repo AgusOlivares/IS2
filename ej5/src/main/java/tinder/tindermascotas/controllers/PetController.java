@@ -1,6 +1,5 @@
 package tinder.tindermascotas.controllers;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.config.CustomUserDetails;
 import tinder.tindermascotas.entities.Pet;
-import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.enums.Sexo;
 import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.exceptions.ErrorService;
@@ -33,14 +31,12 @@ public class PetController {
     @GetMapping("/mis-mascotas")
     public String misMascotas(ModelMap model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         List<Pet> mascotas = petService.searchByUser(customUserDetails.getId());
-        model.put("mascota", mascotas);
+        model.put("mascotas", mascotas);
         return "mascotas";
     }
 
     @GetMapping("/agregarMascota")
     public String agregar(ModelMap model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        User user = userService.searchById(userDetails.getId());
-        model.put("perfil", user);
         model.put("sexos", Sexo.values());
         model.put("types", Type.values());
         Pet pet = new Pet();
@@ -49,26 +45,20 @@ public class PetController {
         return "mascota";
     }
 
-
-
     @PostMapping("/actualizar")
     public String actualizar(ModelMap model, MultipartFile file, @RequestParam(required = false) String id, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam String name, @RequestParam Sexo sexo, @RequestParam Type type ){
-        System.out.println("hola");
-        User user = userService.searchById(userDetails.getId());
         try {
             if (id == null || id.isEmpty()) {
-                petService.addPet(file, user.getId(), name, sexo, type);
+                petService.addPet(file, userDetails.getId(), name, sexo, type);
             } else{
-                petService.modify(file, user.getId(), id, name, sexo, type);
+                petService.modify(file, userDetails.getId(), id, name, sexo, type);
             }
             return "redirect:/inicio";
         } catch (ErrorService e) {
             model.put("sexos", Sexo.values());
             model.put("types", Type.values());
             model.put("error", e.getMessage());
-            model.put("perfil", user);
         }
         return "mascota";
     }
-
 }
