@@ -1,12 +1,16 @@
 package tinder.tindermascotas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import tinder.tindermascotas.config.CustomUserDetails;
+import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.entities.Zone;
 import tinder.tindermascotas.exceptions.ErrorService;
 import tinder.tindermascotas.repositories.ZoneRepository;
@@ -40,4 +44,21 @@ public class UserController {
         }
         return "exito";
     }
+
+    @GetMapping("/editar-perfil")
+    public String editarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails, ModelMap model) {
+        List<Zone> zonas = zoneRepository.findAll();
+
+        model.put("zones", zonas);
+
+        User user = userService.searchById(userDetails.getId());
+        model.addAttribute("profile", user);
+
+        return "perfil";
+    }
+
+//    @PostMapping("/actualizar-perfil")
+//    public String actualizarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails) {
+//
+//    }
 }

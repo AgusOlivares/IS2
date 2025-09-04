@@ -42,7 +42,7 @@ public class PortalController {
     @GetMapping("/registro")
     public String registro(ModelMap model) {
         try {
-            List<Zone> zonas = (List<Zone>) zoneRepository.findAll();
+            List<Zone> zonas = zoneRepository.findAll();
             model.put("zonas", zonas);
             return "registro";
         } catch (Exception e) {

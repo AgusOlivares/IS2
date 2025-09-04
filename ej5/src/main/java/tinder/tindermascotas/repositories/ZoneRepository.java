@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import tinder.tindermascotas.entities.Zone;
 
+import java.util.List;
+
 @Repository
 public interface ZoneRepository extends CrudRepository<Zone, String> {
 
@@ -12,4 +14,6 @@ public interface ZoneRepository extends CrudRepository<Zone, String> {
     String id(String id);
 
     Zone getReferenceById(String id);
+
+    List<Zone> findAll();
 }
