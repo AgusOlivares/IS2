@@ -33,6 +33,15 @@ public class DataInitializer implements CommandLineRunner {
                 .zone(zone2)
                 .build();
 
+        User user2 = User.builder()
+                .nombre("Moni")
+                .apellido("Argento")
+                .mail("moniargento@gmail.com")
+                .clave("1234")
+                .zone(zone3)
+                .build();
+
         userRepository.save(user1);
+        userRepository.save(user2);
     }
 }

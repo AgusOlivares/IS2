@@ -5,11 +5,14 @@ import org.springframework.stereotype.Repository;
 import tinder.tindermascotas.entities.Zone;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ZoneRepository extends CrudRepository<Zone, String> {
 
     Zone getZoneById(String id);
+
+    Optional<Zone> findById(String id);
 
     String id(String id);
 

@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tinder.tindermascotas.entities.Pet;
 import tinder.tindermascotas.entities.Photo;
 import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.entities.Zone;
@@ -29,7 +28,12 @@ public class UserService {
 
     @Transactional
     public void register(MultipartFile file, String nombre, String apellido, String mail, String clave1, String clave2, String idZona) throws ErrorService {
-        Zone zone = zoneRepository.getZoneById(idZona);
+        if (userRepository.existsByMail(mail))
+            throw new ErrorService("Ya existe una cuenta con esa dirección de correo");
+
+        Zone zone = zoneRepository.findById(idZona)
+                        .orElseThrow(() -> new ErrorService("La zona no es válida"));
+
         validate(nombre, apellido, mail, clave1, clave2, zone);
 
         User user = new User();
@@ -45,12 +49,17 @@ public class UserService {
 
         userRepository.save(user);
 
-        ///notificationService.send("Bienvenido al Tinder de Mascotas!", "Tinder de Mascotas", usser.getMail());
+        ///notificationService.send("Bienvenido al Tinder de Mascotas!", "Tinder de Mascotas", user.getMail());
     }
 
     @Transactional
     public void modify(MultipartFile file, String id, String nombre, String apellido, String mail, String clave1, String clave2, String idZona) throws ErrorService {
-        Zone zone = zoneRepository.getZoneById(idZona);
+        if (userRepository.existsByMailAndIdNot(mail, id))
+            throw new ErrorService("Ya existe una cuenta con esa dirección de correo");
+
+        Zone zone = zoneRepository.findById(idZona)
+                .orElseThrow(() -> new ErrorService("La zona no es válida"));
+
         validate(nombre, apellido, mail, clave1, clave2, zone);
         Optional<User> response = userRepository.findById(id);
         if (response.isPresent()) {

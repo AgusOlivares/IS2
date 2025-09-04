@@ -25,8 +25,6 @@ public class UserLoginService implements UserDetailsService {
         User user = userRepository.findByMail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        System.out.println("Autenticando: " + user.getMail());
-
         return CustomUserDetails.builder()
                 .id(user.getId())
                 .email(user.getMail())
