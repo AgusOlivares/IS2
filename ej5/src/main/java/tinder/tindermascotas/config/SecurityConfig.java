@@ -17,9 +17,6 @@ public class SecurityConfig {
     @Autowired
     private UserLoginService userLoginService;
 
-    @Autowired
-    private CustomAuthSuccessHandler customAuthSuccessHandler;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -33,7 +30,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .usernameParameter("mail")
                         .passwordParameter("clave")
-                        .successHandler(customAuthSuccessHandler)
+                        .defaultSuccessUrl("/inicio", true)
                         .failureUrl("/login?error")
                         .permitAll()
                 )

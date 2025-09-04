@@ -52,13 +52,14 @@ public class UserController {
         model.put("zones", zonas);
 
         User user = userService.searchById(userDetails.getId());
+        System.out.println(user.getZone());
         model.addAttribute("profile", user);
 
         return "perfil";
     }
 
-//    @PostMapping("/actualizar-perfil")
-//    public String actualizarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails) {
-//
-//    }
+    @PostMapping("/actualizar-perfil")
+    public String actualizarPerfil(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return "inicio";
+    }
 }
