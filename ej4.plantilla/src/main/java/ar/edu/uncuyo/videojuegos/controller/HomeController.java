@@ -38,12 +38,15 @@ public class HomeController {
                 .mapToLong(Videogame::getAmount)
                 .sum();
 
-        // Agregas la variable 'stockTotal' al modelo
         model.addAttribute("stockTotal", stockTotal);
 
 
         model.addAttribute("studios", studioList.size());
         model.addAttribute("categories", categoryList.size());
+
+
+        model.addAttribute("studiosList", studioList);
+        model.addAttribute("categoriesList", categoryList);
 
         model.addAttribute("videogameLista", videogameList);
         model.addAttribute("cantidadVideogamess", videogameList.size());

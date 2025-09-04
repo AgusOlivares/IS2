@@ -22,7 +22,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    private String viewList = "view/category/list";
+    private String viewList = "plantilla/index";
     private String viewEdit = "plantilla/view/category/edit";
     private String redirectList = "redirect:/index";
 

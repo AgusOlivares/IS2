@@ -22,7 +22,7 @@ public class StudioController {
     @Autowired
     private StudioService studioService;
 
-    private String viewList = "view/studio/list";
+    private String viewList = "plantilla/index";
     private String viewEdit = "plantilla/view/studio/edit";
     private String redirectList = "redirect:/index";
 
