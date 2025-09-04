@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import tinder.tindermascotas.config.CustomUserDetails;
 import tinder.tindermascotas.entities.Pet;
-import tinder.tindermascotas.entities.User;
 import tinder.tindermascotas.enums.Sexo;
 import tinder.tindermascotas.enums.Type;
 import tinder.tindermascotas.exceptions.ErrorService;
@@ -53,7 +52,7 @@ public class PetController {
             } else{
                 petService.modify(file, userDetails.getId(), id, name, sexo, type);
             }
-            return "redirect:/mascotas";
+            return "redirect:/mascota/mis-mascotas";
         } catch (ErrorService e) {
             model.put("sexos", Sexo.values());
             model.put("types", Type.values());
